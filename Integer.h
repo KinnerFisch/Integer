@@ -107,10 +107,9 @@ public:
 			}
 			result.removeLeadingZeros();
 			return result;
-		} else {
-			if (isNegative) return other - (-(*this)); // 如果符号不同，则转换为减法
-			return *this - (-other);
 		}
+		if (isNegative) return other - (-(*this)); // 如果符号不同，则转换为减法
+		return *this - (-other);
 	}
 
 	// 减法运算符重载，实现两个Integer的相减
@@ -196,7 +195,7 @@ public:
 		Integer base = *this, exponent = other, result(1);
 		while (exponent != 0) {
 			if (exponent.digits[0] % 2 == 1) result = result * base; // 如果指数为奇数，乘以基数
-			base = base * base;
+			base *= base;
 			exponent = exponent / 2; // 指数减半
 		}
 		return result;
@@ -256,7 +255,7 @@ public:
 	bool operator>=(const Integer& other) const { return !(*this < other); }
 
 	// 转为字符串
-	std::string to_string() const {
+	std::string string() const {
 		std::string result;
 		if (isNegative) result += '-';
 		for (auto it = digits.rbegin(); it != digits.rend(); ++it) result += *it + '0';
@@ -264,7 +263,7 @@ public:
 	}
 
 	// 转为宽字符串
-	std::wstring to_wstring() const {
+	std::wstring wstring() const {
 		std::wstring result;
 		if (isNegative) result += '-';
 		for (auto it = digits.rbegin(); it != digits.rend(); ++it) result += *it + '0';
@@ -278,7 +277,7 @@ struct std::hash<Integer> {
 	size_t operator()(const Integer& key) const {
 		size_t hashValue = 0;
 		std::hash<int> intHash;
-		for (const int& digit : key.digits) hashValue ^= intHash(digit) + 0x9e3779b9 + (hashValue << 6) + (hashValue >> 2);
+		for (const int& digit : key.digits) hashValue ^= intHash(digit) + 0x9E3779B9 + (hashValue << 6) + (hashValue >> 2);
 		if (key.isNegative) hashValue = ~hashValue;
 		return hashValue;
 	}
