@@ -2,23 +2,23 @@
 #include <iostream>
 #include <vector>
 
-// Ò»¸ö¼òÒ×µÄ¸ß¾«¶ÈÕûÊı¶ÔÏó
+// ä¸€ä¸ªç®€æ˜“çš„é«˜ç²¾åº¦æ•´æ•°å¯¹è±¡
 class Integer {
 private:
-	// È¥³ıÇ°µ¼ÁãµÄ¸¨Öúº¯Êı
+	// å»é™¤å‰å¯¼é›¶çš„è¾…åŠ©å‡½æ•°
 	void removeLeadingZeros() {
 		while (digits.size() > 1 && digits.back() == 0) digits.pop_back();
 		if (digits.size() == 1 && digits[0] == 0) isNegative = false;
 	}
 
 public:
-	std::vector<int> digits; // ´æ´¢Ã¿Ò»Î»Êı×Ö£¬°´Ğ¡¶Ë´æ´¢£¬µÍÎ»ÔÚÇ°
-	bool isNegative; // ±ê¼ÇÊı×ÖÊÇ·ñÎª¸ºÊı
+	std::vector<int> digits; // å­˜å‚¨æ¯ä¸€ä½æ•°å­—ï¼ŒæŒ‰å°ç«¯å­˜å‚¨ï¼Œä½ä½åœ¨å‰
+	bool isNegative; // æ ‡è®°æ•°å­—æ˜¯å¦ä¸ºè´Ÿæ•°
 
-	// Ä¬ÈÏ¹¹Ôìº¯Êı£¬³õÊ¼»¯ÎªÕıÊı
+	// é»˜è®¤æ„é€ å‡½æ•°ï¼Œåˆå§‹åŒ–ä¸ºæ­£æ•°
 	Integer() : isNegative(false) {}
 
-	// ´Ólong longÀàĞÍµÄÕûÊı¹¹ÔìInteger
+	// ä»long longç±»å‹çš„æ•´æ•°æ„é€ Integer
 	Integer(long long number) {
 		if (number < 0) {
 			isNegative = true;
@@ -27,31 +27,31 @@ public:
 		if (number == 0) digits.push_back(0);
 		else {
 			while (number > 0) {
-				digits.push_back((int) number % 10); // ½«Êı×Ö·Ö½â³É¸öÎ»Êı²¢´æ´¢
+				digits.push_back((int) number % 10); // å°†æ•°å­—åˆ†è§£æˆä¸ªä½æ•°å¹¶å­˜å‚¨
 				number /= 10;
 			}
 		}
 	}
 
-	// ´Ó×Ö·û´®¹¹ÔìInteger
+	// ä»å­—ç¬¦ä¸²æ„é€ Integer
 	Integer(const std::string& number) {
 		int start = 0;
 		if (number[0] == '-') {
 			isNegative = true;
-			start = 1; // Èç¹ûÓĞ¸ººÅ£¬Ìø¹ıµÚÒ»¸ö×Ö·û
+			start = 1; // å¦‚æœæœ‰è´Ÿå·ï¼Œè·³è¿‡ç¬¬ä¸€ä¸ªå­—ç¬¦
 		} else isNegative = false;
 		for (size_t i = start; i < number.size(); ++i) {
-			if (isdigit(number[i])) digits.push_back(number[i] - '0'); // ½«×Ö·û×ª»»³ÉÊı×Ö²¢´æ´¢
+			if (isdigit(number[i])) digits.push_back(number[i] - '0'); // å°†å­—ç¬¦è½¬æ¢æˆæ•°å­—å¹¶å­˜å‚¨
 			else throw std::invalid_argument("Invalid digit in number");
 		}
-		std::reverse(digits.begin(), digits.end()); // ·´×ªÒÔÊ¹µÍÎ»ÔÚÇ°
+		std::reverse(digits.begin(), digits.end()); // åè½¬ä»¥ä½¿ä½ä½åœ¨å‰
 		if (digits.empty()) {
-			digits.push_back(0); // Èç¹ûÊäÈëÎª¿Õ£¬ÔòÉèÎª0
+			digits.push_back(0); // å¦‚æœè¾“å…¥ä¸ºç©ºï¼Œåˆ™è®¾ä¸º0
 			isNegative = false;
 		}
 	}
 
-	// ÊäÈëÔËËã·ûÖØÔØ£¬ÓÃÓÚ¶ÁÈ¡IntegerÀàĞÍµÄÖµ
+	// è¾“å…¥è¿ç®—ç¬¦é‡è½½ï¼Œç”¨äºè¯»å–Integerç±»å‹çš„å€¼
 	friend std::istream& operator>>(std::istream& in, Integer& Int) {
 		Int.digits.clear();
 		Int.isNegative = false;
@@ -62,30 +62,30 @@ public:
 			in >> ch;
 		}
 		while (std::isdigit(ch)) {
-			Int.digits.push_back(ch - '0'); // Öğ¸ö¶ÁÈ¡×Ö·û²¢×ªÎªÊı×Ö´æ´¢
+			Int.digits.push_back(ch - '0'); // é€ä¸ªè¯»å–å­—ç¬¦å¹¶è½¬ä¸ºæ•°å­—å­˜å‚¨
 			if (!in.get(ch)) break;
 		}
 		if (in) in.unget();
 		std::reverse(Int.digits.begin(), Int.digits.end());
-		Int.removeLeadingZeros(); // È¥³ıÇ°µ¼Áã
+		Int.removeLeadingZeros(); // å»é™¤å‰å¯¼é›¶
 		return in;
 	}
 
-	// Êä³öÔËËã·ûÖØÔØ£¬ÓÃÓÚÊä³öIntegerÀàĞÍµÄÖµ
+	// è¾“å‡ºè¿ç®—ç¬¦é‡è½½ï¼Œç”¨äºè¾“å‡ºIntegerç±»å‹çš„å€¼
 	friend std::ostream& operator<<(std::ostream& out, const Integer& Int) {
 		if (Int.isNegative) out << '-';
-		for (auto it = Int.digits.rbegin(); it != Int.digits.rend(); ++it) out << *it; // Öğ¸öÊä³öÃ¿Ò»Î»Êı×Ö
+		for (auto it = Int.digits.rbegin(); it != Int.digits.rend(); ++it) out << *it; // é€ä¸ªè¾“å‡ºæ¯ä¸€ä½æ•°å­—
 		return out;
 	}
 
-	// È¡·´ÔËËã·ûÖØÔØ£¬·µ»ØÏà·´Êı
+	// å–åè¿ç®—ç¬¦é‡è½½ï¼Œè¿”å›ç›¸åæ•°
 	Integer operator-() const {
 		Integer result = *this;
-		if (*this != 0) result.isNegative = !isNegative; // Èç¹û·ÇÁã£¬ÔòÇĞ»»·ûºÅ
+		if (*this != 0) result.isNegative = !isNegative; // å¦‚æœéé›¶ï¼Œåˆ™åˆ‡æ¢ç¬¦å·
 		return result;
 	}
 
-	// ¼Ó·¨ÔËËã·ûÖØÔØ£¬ÊµÏÖÁ½¸öIntegerµÄÏà¼Ó
+	// åŠ æ³•è¿ç®—ç¬¦é‡è½½ï¼Œå®ç°ä¸¤ä¸ªIntegerçš„ç›¸åŠ 
 	Integer operator+(const Integer& other) const {
 		if (isNegative == other.isNegative) {
 			Integer result;
@@ -102,20 +102,20 @@ public:
 				int currentDigitSum = carry;
 				if (i < digits.size()) currentDigitSum += digits[i];
 				if (i < other.digits.size()) currentDigitSum += other.digits[i];
-				carry = currentDigitSum / 10; // ¼ÆËã½øÎ»
-				result.digits[i] = currentDigitSum % 10; // ¼ÆËãµ±Ç°Î»µÄÖµ
+				carry = currentDigitSum / 10; // è®¡ç®—è¿›ä½
+				result.digits[i] = currentDigitSum % 10; // è®¡ç®—å½“å‰ä½çš„å€¼
 			}
 			result.removeLeadingZeros();
 			return result;
 		}
-		if (isNegative) return other - (-(*this)); // Èç¹û·ûºÅ²»Í¬£¬Ôò×ª»»Îª¼õ·¨
+		if (isNegative) return other - (-(*this)); // å¦‚æœç¬¦å·ä¸åŒï¼Œåˆ™è½¬æ¢ä¸ºå‡æ³•
 		return *this - (-other);
 	}
 
-	// ¼õ·¨ÔËËã·ûÖØÔØ£¬ÊµÏÖÁ½¸öIntegerµÄÏà¼õ
+	// å‡æ³•è¿ç®—ç¬¦é‡è½½ï¼Œå®ç°ä¸¤ä¸ªIntegerçš„ç›¸å‡
 	Integer operator-(const Integer& other) const {
-		if (isNegative != other.isNegative) return *this + (-other); // Èç¹û·ûºÅ²»Í¬£¬Ôò×ª»»Îª¼Ó·¨
-		if (*this < other) return -(other - *this); // Èç¹û±»¼õÊıĞ¡ÓÚ¼õÊı£¬Ôò½á¹ûÎª¸º
+		if (isNegative != other.isNegative) return *this + (-other); // å¦‚æœç¬¦å·ä¸åŒï¼Œåˆ™è½¬æ¢ä¸ºåŠ æ³•
+		if (*this < other) return -(other - *this); // å¦‚æœè¢«å‡æ•°å°äºå‡æ•°ï¼Œåˆ™ç»“æœä¸ºè´Ÿ
 		Integer result;
 		result.digits.resize(digits.size());
 		result.isNegative = isNegative;
@@ -123,7 +123,7 @@ public:
 		for (size_t i = 0; i < digits.size(); ++i) {
 			int sub = digits[i] - borrow - (i < other.digits.size() ? other.digits[i] : 0);
 			if (sub < 0) {
-				sub += 10; // Èç¹û²»×ã£¬ÔòÏò¸ßÎ»½è1
+				sub += 10; // å¦‚æœä¸è¶³ï¼Œåˆ™å‘é«˜ä½å€Ÿ1
 				borrow = 1;
 			} else borrow = 0;
 			result.digits[i] = sub;
@@ -132,31 +132,31 @@ public:
 		return result;
 	}
 
-	// ³Ë·¨ÔËËã·ûÖØÔØ£¬ÊµÏÖÁ½¸öIntegerµÄÏà³Ë
+	// ä¹˜æ³•è¿ç®—ç¬¦é‡è½½ï¼Œå®ç°ä¸¤ä¸ªIntegerçš„ç›¸ä¹˜
 	Integer operator*(const Integer& other) const {
 		Integer result;
-		result.isNegative = isNegative != other.isNegative; // È·¶¨½á¹ûµÄ·ûºÅ
-		result.digits = std::vector<int>(digits.size() + other.digits.size(), 0); // ³õÊ¼»¯½á¹ûÎ»Êı£¬´óĞ¡ÎªÁ½¸öÊıÎ»ÊıÖ®ºÍ
+		result.isNegative = isNegative != other.isNegative; // ç¡®å®šç»“æœçš„ç¬¦å·
+		result.digits = std::vector<int>(digits.size() + other.digits.size(), 0); // åˆå§‹åŒ–ç»“æœä½æ•°ï¼Œå¤§å°ä¸ºä¸¤ä¸ªæ•°ä½æ•°ä¹‹å’Œ
 		for (size_t i = 0; i < digits.size(); ++i) {
 			long long carry = 0;
 			for (size_t j = 0; j < other.digits.size() || carry; ++j) {
-				long long current = (long long) result.digits[i + j] + carry + (long long) digits[i] * (j < other.digits.size() ? (long long) other.digits[j] : 0); // ¼ÆËãµ±Ç°Î»µÄ³Ë»ıºÍ½øÎ»
-				result.digits[i + j] = (int) (current % 10); // È¡µ±Ç°Î»
-				carry = (long long) (current / 10); // ¼ÆËã½øÎ»
+				long long current = (long long) result.digits[i + j] + carry + (long long) digits[i] * (j < other.digits.size() ? (long long) other.digits[j] : 0); // è®¡ç®—å½“å‰ä½çš„ä¹˜ç§¯å’Œè¿›ä½
+				result.digits[i + j] = (int) (current % 10); // å–å½“å‰ä½
+				carry = (long long) (current / 10); // è®¡ç®—è¿›ä½
 			}
 		}
 		result.removeLeadingZeros();
 		return result;
 	}
 
-	// ³ı·¨ÔËËã·ûÖØÔØ£¬ÊµÏÖÁ½¸öIntegerµÄÏà³ı
+	// é™¤æ³•è¿ç®—ç¬¦é‡è½½ï¼Œå®ç°ä¸¤ä¸ªIntegerçš„ç›¸é™¤
 	Integer operator/(const Integer& other) const {
 		if (other == 0) throw std::invalid_argument("Division by zero");
 		Integer dividend = *this, divisor = other, quotient;
 		quotient.isNegative = isNegative != other.isNegative;
 		dividend.isNegative = false;
 		divisor.isNegative = false;
-		if (dividend < divisor) return 0; // Èç¹û±»³ıÊıĞ¡ÓÚ³ıÊı£¬½á¹ûÎª0
+		if (dividend < divisor) return 0; // å¦‚æœè¢«é™¤æ•°å°äºé™¤æ•°ï¼Œç»“æœä¸º0
 		quotient.digits.resize(dividend.digits.size());
 		Integer current;
 		for (long long i = (long long) dividend.digits.size() - 1; i >= 0; --i) {
@@ -178,7 +178,7 @@ public:
 		return quotient;
 	}
 
-	// È¡Ä£ÔËËã·ûÖØÔØ£¬ÊµÏÖÁ½¸öIntegerµÄÈ¡Ä£
+	// å–æ¨¡è¿ç®—ç¬¦é‡è½½ï¼Œå®ç°ä¸¤ä¸ªIntegerçš„å–æ¨¡
 	Integer operator%(const Integer& other) const {
 		if (other == 0) throw std::invalid_argument("Modulo by zero");
 		if (other.isNegative) return -(-*this % -other);
@@ -189,55 +189,55 @@ public:
 		return this->isNegative ? result + *this : *this - result;
 	}
 
-	// ÃİÔËËã·ûÖØÔØ£¬ÊµÏÖIntegerµÄÃİÔËËã
+	// å¹‚è¿ç®—ç¬¦é‡è½½ï¼Œå®ç°Integerçš„å¹‚è¿ç®—
 	Integer operator^(const Integer& other) const {
 		if (other.isNegative) throw std::invalid_argument("Negative exponent not supported");
 		Integer base = *this, exponent = other, result(1);
 		while (exponent != 0) {
-			if (exponent.digits[0] % 2 == 1) result = result * base; // Èç¹ûÖ¸ÊıÎªÆæÊı£¬³ËÒÔ»ùÊı
+			if (exponent.digits[0] % 2 == 1) result = result * base; // å¦‚æœæŒ‡æ•°ä¸ºå¥‡æ•°ï¼Œä¹˜ä»¥åŸºæ•°
 			base *= base;
-			exponent = exponent / 2; // Ö¸Êı¼õ°ë
+			exponent = exponent / 2; // æŒ‡æ•°å‡åŠ
 		}
 		return result;
 	}
 
-	// Ç°ÖÃ×ÔÔöÔËËã·û
+	// å‰ç½®è‡ªå¢è¿ç®—ç¬¦
 	Integer& operator++() { return *this += 1; }
 
-	// Ç°ÖÃ×Ô¼õÔËËã·û
+	// å‰ç½®è‡ªå‡è¿ç®—ç¬¦
 	Integer& operator--() { return *this -= 1; }
 
-	// ºóÖÃ×ÔÔöÔËËã·û
+	// åç½®è‡ªå¢è¿ç®—ç¬¦
 	Integer& operator++(int) { return *this += 1; }
 
-	// ºóÖÃ×Ô¼õÔËËã·û
+	// åç½®è‡ªå‡è¿ç®—ç¬¦
 	Integer& operator--(int) { return *this -= 1; }
 
-	// ¸´ºÏ¼Ó·¨ÔËËã·ûÖØÔØ
+	// å¤åˆåŠ æ³•è¿ç®—ç¬¦é‡è½½
 	Integer& operator+=(const Integer& other) { return *this = *this + other; }
 
-	// ¸´ºÏ¼õ·¨ÔËËã·ûÖØÔØ
+	// å¤åˆå‡æ³•è¿ç®—ç¬¦é‡è½½
 	Integer& operator-=(const Integer& other) { return *this = *this - other; }
 
-	// ¸´ºÏ³Ë·¨ÔËËã·ûÖØÔØ
+	// å¤åˆä¹˜æ³•è¿ç®—ç¬¦é‡è½½
 	Integer& operator*=(const Integer& other) { return *this = *this * other; }
 
-	// ¸´ºÏ³ı·¨ÔËËã·ûÖØÔØ
+	// å¤åˆé™¤æ³•è¿ç®—ç¬¦é‡è½½
 	Integer& operator/=(const Integer& other) { return *this = *this / other; }
 
-	// ¸´ºÏÈ¡Ä£ÔËËã·ûÖØÔØ
+	// å¤åˆå–æ¨¡è¿ç®—ç¬¦é‡è½½
 	Integer& operator%=(const Integer& other) { return *this = *this % other; }
 
-	// ¸´ºÏÃİÔËËã·ûÖØÔØ
+	// å¤åˆå¹‚è¿ç®—ç¬¦é‡è½½
 	Integer& operator^=(const Integer& other) { return *this = *this ^ other; }
 
-	// ÏàµÈÔËËã·ûÖØÔØ
+	// ç›¸ç­‰è¿ç®—ç¬¦é‡è½½
 	bool operator==(const Integer& other) const { return isNegative == other.isNegative && digits == other.digits; }
 
-	// ²»µÈÔËËã·ûÖØÔØ
+	// ä¸ç­‰è¿ç®—ç¬¦é‡è½½
 	bool operator!=(const Integer& other) const { return !(*this == other); }
 
-	// Ğ¡ÓÚÔËËã·ûÖØÔØ
+	// å°äºè¿ç®—ç¬¦é‡è½½
 	bool operator<(const Integer& other) const {
 		if (isNegative != other.isNegative) return isNegative;
 		if (digits.size() != other.digits.size()) return isNegative ? digits.size() > other.digits.size() : digits.size() < other.digits.size();
@@ -245,16 +245,16 @@ public:
 		return false;
 	}
 
-	// Ğ¡ÓÚµÈÓÚÔËËã·ûÖØÔØ
+	// å°äºç­‰äºè¿ç®—ç¬¦é‡è½½
 	bool operator<=(const Integer& other) const { return *this < other || *this == other; }
 
-	// ´óÓÚÔËËã·ûÖØÔØ
+	// å¤§äºè¿ç®—ç¬¦é‡è½½
 	bool operator>(const Integer& other) const { return !(*this <= other); }
 
-	// ´óÓÚµÈÓÚÔËËã·ûÖØÔØ
+	// å¤§äºç­‰äºè¿ç®—ç¬¦é‡è½½
 	bool operator>=(const Integer& other) const { return !(*this < other); }
 
-	// ×ªÎª×Ö·û´®
+	// è½¬ä¸ºå­—ç¬¦ä¸²
 	std::string string() const {
 		std::string result;
 		if (isNegative) result += '-';
@@ -262,7 +262,7 @@ public:
 		return result;
 	}
 
-	// ×ªÎª¿í×Ö·û´®
+	// è½¬ä¸ºå®½å­—ç¬¦ä¸²
 	std::wstring wstring() const {
 		std::wstring result;
 		if (isNegative) result += '-';
@@ -271,7 +271,7 @@ public:
 	}
 };
 
-// ´ÖÂÔ¼ÆËã¹şÏ£Öµ
+// ç²—ç•¥è®¡ç®—å“ˆå¸Œå€¼
 template <>
 struct std::hash<Integer> {
 	size_t operator()(const Integer& key) const {
